@@ -67,9 +67,11 @@ const ChatWindow = ({ containerRef }: ChatWindowProps) => {
       </motion.div>
       <motion.div
         className={cn(
-          appMaximized ? "w-full h-[calc(100%_-28px)] inset-0" : "w-[500px]",
-          windowOpen ? "flex" : "hidden",
-          "window fixed inset-x-0 mx-auto flex-col"
+          "window fixed inset-x-0 mx-auto flex-col",
+          appMaximized
+            ? "!w-full !h-[calc(100%_-28px)] inset-0 resize-none overflow-hidden transform"
+            : "w-[500px] resize overflow-auto",
+          windowOpen ? "flex" : "hidden"
         )}
         animate={animationControls}
         drag={appMaximized ? false : true}
@@ -80,7 +82,9 @@ const ChatWindow = ({ containerRef }: ChatWindowProps) => {
         dragListener={false}
       >
         <div className="title-bar" onPointerDown={startDrag}>
-          <div className="title-bar-text">Chat Window</div>
+          <div className="title-bar-text pointer-events-none cursor-none">
+            Chat Window
+          </div>
           <div className="title-bar-controls">
             <button aria-label="Minimize" />
             <button
@@ -94,8 +98,9 @@ const ChatWindow = ({ containerRef }: ChatWindowProps) => {
         <div className="window-body flex-grow flex flex-col justify-between">
           <div className="field-row-stacked min-h-1 flex-grow">
             <textarea
-              className={cn("w-full h-full", appMaximized && "resize-none")}
+              className={cn("w-full h-full resize-none")}
               rows={8}
+              disabled
             ></textarea>
           </div>
           <div className="field-row">
